@@ -1,10 +1,12 @@
-/* Version C: tick off lectures. A tick box beside each Slides button, a chain of progress beside each
-   section heading, a short confirmation. Ticks live in this browser only (localStorage). Load after circle.js. */
+/* Version C: tick off lectures. On wide screens the number circle is the button; on phones, where the
+   circle is hidden, a tick box sits beside Slides. A progress chain sits beside the heading, and a short
+   confirmation appears. Ticks are kept in localStorage: they survive reloads, closing the browser and
+   restarts, until the visitor clears the site's data. Load after circle.js. */
 window.CHECKLIST = (() => {
   const KEY = 'csu34011-done';
   const TOAST_MS = 2500;
   const calm = matchMedia('(prefers-reduced-motion: reduce)');
-  const tick = UI.icon('tick', 16);
+  const tick = (size) => UI.icon('tick', size);
 
   // Storage can be missing or blocked (private windows, strict settings); ticks then last for this visit.
   let memory = [];
@@ -18,50 +20,47 @@ window.CHECKLIST = (() => {
 
   const idOf = (card) => card.dataset.id || card.id.replace('lecture-', '');
   const markOf = (card) => card.querySelector('.n-art > span').textContent.trim();
-  const titleOf = (card) => card.querySelector('h3 > span:last-child').textContent.trim();
-  const nameOf = (card) => {
-    const mark = markOf(card);
-    return /^\d+$/.test(mark) && mark !== '0' ? `Lecture ${mark}` : titleOf(card);
-  };
+  const nameOf = (card, mark) => (/^\d+$/.test(mark) && mark !== '0'
+    ? `Lecture ${mark}` : card.querySelector('h3 > span:last-child').textContent.trim());
 
   function mount() {
     const main = document.querySelector('.b-main');
-    const sections = [...main.querySelectorAll('.n-head2')].map((head) => {
-      let grid = head.nextElementSibling;
-      while (grid && !grid.matches('.n-grid')) grid = grid.nextElementSibling;
-      return { head, cards: grid ? [...grid.querySelectorAll('.n-card')] : [] };
-    });
+    const head = main.querySelector('.n-head2');
+    const cards = [...main.querySelectorAll('.n-card')];
+    const names = new Map();
 
-    // The number circle and the phone number get a tick that shows when done.
-    for (const card of main.querySelectorAll('.n-card')) {
+    for (const card of cards) {
+      const id = idOf(card);
       const mark = markOf(card);
-      for (const el of card.querySelectorAll('.n-art > span, .n-num')) {
-        el.innerHTML = `<span class="c-mark">${mark}</span><span class="c-tick">${tick}</span>`;
-      }
+      const name = nameOf(card, mark);
+      names.set(id, name);
+      card.querySelector('.n-art > span').outerHTML = `<button type="button" class="c-circle" data-done="${id}"
+        aria-pressed="false" aria-label="Done: ${P.esc(name)}" title="Mark as done">
+        <span class="c-mark">${mark}</span><span class="c-tick">${tick(30)}</span></button>`;
       const actions = card.querySelector('.n-actions');
       actions.classList.add('c-actions');
       actions.insertAdjacentHTML('afterbegin',
-        `<input type="checkbox" class="c-box" data-done="${idOf(card)}" title="Mark as done" aria-label="Done: ${P.esc(nameOf(card))}">`);
+        `<input type="checkbox" class="c-box" data-done="${id}" title="Mark as done" aria-label="Done: ${P.esc(name)}">`);
     }
 
-    // Progress chain: one link per card, to the right of the heading or under it when space is short.
-    for (const { head, cards } of sections) {
-      if (!cards.length) continue;
-      const text = document.createElement('div');
-      text.append(...head.childNodes);
-      head.append(text);
-      head.classList.add('c-head');
-      head.insertAdjacentHTML('beforeend', `<ol class="c-chain">${cards.map((card) => `
-        <li><a href="#${card.id}" data-chain="${idOf(card)}" data-name="${P.esc(nameOf(card))}">
-          <span class="c-mark">${markOf(card)}</span><span class="c-tick">${tick}</span></a></li>`).join('')}</ol>`);
-    }
+    // One chain for the whole list: beside the heading, or under it when space is short.
+    const text = document.createElement('div');
+    text.append(...head.childNodes);
+    head.append(text);
+    head.classList.add('c-head');
+    head.insertAdjacentHTML('beforeend', `<ol class="c-chain">${cards.map((card) => {
+      const id = idOf(card);
+      return `<li><a href="#${card.id}" data-chain="${id}">
+        <span class="c-mark">${card.querySelector('.c-mark').textContent}</span><span class="c-tick">${tick(22)}</span></a></li>`;
+    }).join('')}</ol>`);
+    const chain = head.querySelector('.c-chain');
 
     document.body.insertAdjacentHTML('beforeend', '<div class="c-toast" role="status"></div>');
     const toast = document.body.lastElementChild;
     let toastTimer = null;
     const say = (text) => {
       clearTimeout(toastTimer);
-      toast.innerHTML = `${tick}<span>${P.esc(text)}</span>`;
+      toast.innerHTML = `${tick(18)}<span>${P.esc(text)}</span>`;
       toast.classList.add('on');
       toastTimer = setTimeout(() => toast.classList.remove('on'), TOAST_MS);
     };
@@ -69,41 +68,44 @@ window.CHECKLIST = (() => {
     // Search results are copies of the cards, so every copy is updated, not just the one clicked.
     function paint() {
       const done = load();
-      for (const box of document.querySelectorAll('[data-done]')) {
-        box.checked = done.has(box.dataset.done);
-        box.closest('.n-card').classList.toggle('is-done', box.checked);
+      for (const el of document.querySelectorAll('[data-done]')) {
+        const on = done.has(el.dataset.done);
+        if (el.type === 'checkbox') el.checked = on; else el.setAttribute('aria-pressed', on);
+        el.closest('.n-card').classList.toggle('is-done', on);
       }
-      for (const { head, cards } of sections) {
-        const chain = head.querySelector('.c-chain');
-        if (!chain) continue;
-        let count = 0;
-        for (const link of chain.querySelectorAll('[data-chain]')) {
-          const on = done.has(link.dataset.chain);
-          count += on;
-          link.classList.toggle('is-done', on);
-          link.setAttribute('aria-label', `${link.dataset.name}${on ? ', done' : ''}`);
-        }
-        chain.setAttribute('aria-label', `Progress: ${count} of ${cards.length} done`);
+      let count = 0;
+      for (const link of chain.querySelectorAll('[data-chain]')) {
+        const on = done.has(link.dataset.chain);
+        count += on;
+        link.classList.toggle('is-done', on);
+        link.setAttribute('aria-label', `${names.get(link.dataset.chain)}${on ? ', done' : ''}`);
       }
+      chain.setAttribute('aria-label', `Progress: ${count} of ${cards.length} done`);
     }
 
-    document.addEventListener('change', (e) => {
-      const box = e.target.closest('[data-done]');
-      if (!box) return;
+    function set(el, on) {
       const done = load();
-      if (box.checked) done.add(box.dataset.done); else done.delete(box.dataset.done);
+      if (on) done.add(el.dataset.done); else done.delete(el.dataset.done);
       save(done);
       paint();
-      const card = box.closest('.n-card');
+      const card = el.closest('.n-card');
       if (!calm.matches) card.animate([{ transform: 'scale(.98)' }, { transform: 'none' }], { duration: 200, easing: 'ease-out' });
-      say(`${nameOf(card)} ${box.checked ? 'marked as done' : 'unmarked'}`);
+      say(`${names.get(el.dataset.done)} ${on ? 'marked as done' : 'unmarked'}`);
+    }
+    document.addEventListener('click', (e) => {
+      const circle = e.target.closest('.c-circle');
+      if (circle) set(circle, circle.getAttribute('aria-pressed') !== 'true');
+    });
+    document.addEventListener('change', (e) => {
+      if (e.target.matches('.c-box')) set(e.target, e.target.checked);
     });
 
-    // Search re-renders its copies; paint them as they appear.
+    // Search re-renders its copies; paint them as they appear. Another tab may tick things too.
     const results = main.querySelector('.v-results');
     if (results) new MutationObserver(paint).observe(results, { childList: true });
-    // Another tab ticked something.
     addEventListener('storage', (e) => { if (e.key === KEY) paint(); });
+    // Coming back with the Back button can show a stored copy of the page; bring it up to date.
+    addEventListener('pageshow', (e) => { if (e.persisted) paint(); });
     paint();
   }
 

@@ -1,36 +1,47 @@
-/* Version C: tick box, done state, progress chain, confirmation. */
+/* Version C: clickable number circle (wide screens), tick box (phones), progress chain, confirmation. */
 :root { --done: #2E7D32; --done-tint: #F2F8F2; }
 
-/* Tick box to the left of Slides, same height as the buttons. */
-.c-actions, .c-actions.one { grid-template-columns: 50px 1fr 1fr; }
-.c-actions.one > .btn { grid-column: 2; }
-.c-box { appearance: none; width: 50px; height: 50px; margin: 0; border: 2px solid var(--grey-300); border-radius: 10px; background: #fff center / 26px no-repeat; cursor: pointer; transition: background-color .15s ease, border-color .15s ease; }
-.c-box:hover { border-color: var(--done); }
-.c-box:checked { border-color: var(--done); background-color: var(--done); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4.5 12.75 6 6 9-13.5'/%3E%3C/svg%3E"); }
-
-/* Done: the card sits back a little, and its number turns into a green tick. */
-.n-card.is-done { background: var(--done-tint); box-shadow: var(--shadow-sm); }
+/* The number circle is the button. It takes over the look of the circle it replaces. */
+.n-art > .c-circle { position: absolute; left: 20px; bottom: -26px; display: grid; place-items: center; min-width: 56px; height: 56px; padding: 0 12px; border: 0; border-radius: 999px; background: #fff; color: var(--purple-900); font: inherit; font-size: 24px; font-weight: 700; box-shadow: var(--shadow-md); cursor: pointer; transition: background-color .15s ease, box-shadow .15s ease, color .15s ease; }
+.n-art > .c-circle:hover { box-shadow: var(--shadow-md), 0 0 0 3px var(--done); }
+.n-card.is-done .c-circle { background: var(--done); color: #fff; }
 .c-tick { display: none; }
-.is-done .c-mark { display: none; }
-.is-done .c-tick { display: contents; }
-.n-card.is-done .n-art > span { background: var(--done); color: #fff; }
-.n-art .c-tick svg { width: 28px; height: 28px; }
-.n-card.is-done .n-num { color: var(--done); }
-.n-num .c-tick svg { width: 20px; height: 20px; vertical-align: -3px; }
+.is-done > .c-mark, .is-done .c-circle .c-mark { display: none; }
+.is-done > .c-tick, .is-done .c-circle .c-tick { display: contents; }
+.n-card.is-done { background: var(--done-tint); box-shadow: var(--shadow-sm); }
 
-/* Heading on the left, chain on the right; the chain moves under the heading when space runs out. */
-.c-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px 32px; }
-.c-chain { display: flex; flex-wrap: wrap; row-gap: 8px; margin: 0; padding: 0; list-style: none; }
-.c-chain li { display: flex; align-items: center; }
-.c-chain li + li::before { content: ''; width: 8px; height: 2px; background: var(--grey-300); }
-.c-chain li:has(> .is-done) + li:has(> .is-done)::before { background: var(--done); }
-.c-chain a { display: grid; place-items: center; width: 30px; height: 30px; border: 2px solid var(--grey-300); border-radius: 999px; background: #fff; color: var(--grey-600); font-size: 13px; font-weight: 700; text-decoration: none; transition: background-color .15s ease, border-color .15s ease; }
+/* Tick box: phones only, where the circle is hidden. The number stays. */
+.c-box { display: none; }
+@media (max-width: 600px) {
+  .c-actions, .c-actions.one { grid-template-columns: 50px 1fr 1fr; }
+  .c-actions.one > .btn { grid-column: 2; }
+  .c-box { display: block; appearance: none; width: 50px; height: 50px; margin: 0; border: 2px solid var(--grey-300); border-radius: 10px; background: #fff center / 26px no-repeat; cursor: pointer; transition: background-color .15s ease, border-color .15s ease; }
+  .c-box:checked { border-color: var(--done); background-color: var(--done); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4.5 12.75 6 6 9-13.5'/%3E%3C/svg%3E"); }
+}
+
+/* One chain, beside the heading; it moves under the heading when space runs out, then splits into rows of 8. */
+.c-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px 40px; }
+.c-chain { --c: 44px; --gap: 12px; display: grid; grid-template-columns: repeat(16, var(--c)); gap: 14px var(--gap); margin: 0; padding: 0; list-style: none; }
+.c-chain li { position: relative; display: grid; place-items: center; }
+.c-chain li:not(:last-child)::after { content: ''; position: absolute; top: 50%; left: 100%; width: var(--gap); height: 3px; margin-top: -1.5px; background: var(--grey-300); }
+.c-chain li:nth-child(16n)::after { display: none; }
+.c-chain li:has(> .is-done):has(+ li > .is-done)::after { background: var(--done); }
+.c-chain a { display: grid; place-items: center; width: var(--c); height: var(--c); border: 3px solid var(--grey-300); border-radius: 999px; background: #fff; color: var(--grey-700); font-size: 18px; font-weight: 700; text-decoration: none; transition: background-color .15s ease, border-color .15s ease; }
 .c-chain a:hover { border-color: var(--done); }
 .c-chain a.is-done { border-color: var(--done); background: var(--done); color: #fff; }
 .n-card { scroll-margin-top: 16px; }
+@media (max-width: 1000px) {
+  .c-chain { grid-template-columns: repeat(8, var(--c)); }
+  .c-chain li:nth-child(16n)::after { display: block; }
+  .c-chain li:nth-child(8n)::after { display: none; }
+}
+/* Phones: eight to a row across the full width, and the number stays visible when done. */
 @media (max-width: 600px) {
-  .c-chain li + li::before { width: 4px; }
-  .c-chain a { width: 24px; height: 24px; font-size: 12px; }
+  .c-head > .c-chain { --c: 36px; width: 100%; grid-template-columns: repeat(8, 1fr); column-gap: 0; }
+  .c-chain li:not(:last-child)::after { left: calc(50% + var(--c) / 2); width: auto; right: calc(-50% + var(--c) / 2); }
+  .c-chain a { font-size: 15px; border-width: 2px; }
+  .c-chain .is-done > .c-mark { display: inline; }
+  .c-chain .is-done > .c-tick { display: none; }
 }
 
 /* Short confirmation at the bottom; screen readers hear it as a status message. */
@@ -39,7 +50,7 @@
 .c-toast svg { color: #8FD694; }
 
 @media (forced-colors: active) {
-  .c-box, .c-chain a, .n-card.is-done .n-art > span { forced-color-adjust: none; border: 2px solid CanvasText; background-color: Canvas; color: CanvasText; }
-  .c-box:checked, .c-chain a.is-done, .n-card.is-done .n-art > span { background-color: Highlight; color: HighlightText; }
+  .c-box, .c-chain a, .n-art > .c-circle { forced-color-adjust: none; border: 2px solid CanvasText; background-color: Canvas; color: CanvasText; }
+  .c-box:checked, .c-chain a.is-done, .n-card.is-done .n-art > .c-circle { background-color: Highlight; color: HighlightText; }
   .c-toast { border: 1px solid CanvasText; }
 }

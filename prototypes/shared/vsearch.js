@@ -37,9 +37,10 @@ window.VSEARCH = (() => {
     ));
   };
 
-  function mount(variantId) {
+  // beyond: 'cards' keeps the extra decks in their own section; 'merged' lists everything in one.
+  function mount(variantId, { beyond = 'cards' } = {}) {
     P.bar(variantId);
-    document.getElementById('app').innerHTML = CIRCLE.page({ beyond: 'cards' });
+    document.getElementById('app').innerHTML = CIRCLE.page({ beyond });
 
     // The normal page is set aside while searching; results go in one grid of their own.
     const wrap = document.querySelector('.b-main .b-wrap');

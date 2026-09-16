@@ -22,7 +22,7 @@ window.P = (() => {
     { id: 's-cards', name: 'S · Beyond as cards', hyp: 'Same as R, except Beyond the book uses the same containers as Slides.' },
     { id: 'final-default', name: 'Final A · Default', hyp: 'The current site, redesigned: every lecture in teaching order, extras after their lecture.' },
     { id: 'final-search', name: 'Final B · With search', hyp: 'A, plus a search box that finds lectures and the exact slides, and a notice line.' },
-    { id: 'final-checklist', name: 'Candidate C · With checklist', hyp: 'B, plus ticking off lectures: a tick box by each Slides button and a progress chain by each heading, saved in this browser.' },
+    { id: 'final-checklist', name: 'Candidate C · With checklist', hyp: 'B in one list, plus ticking off lectures: click the number circle (a tick box on phones); a progress chain by the heading; kept in this browser.' },
   ];
 
   const store = {
