@@ -1,4 +1,4 @@
-/* V and X: the search box, its results, and the optional notice. */
+/* Final B: the search box, its results, and the optional notice. */
 .v-search { position: relative; max-width: 640px; margin-top: 28px; }
 .v-search > .icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--purple-500); pointer-events: none; }
 .v-search input { width: 100%; min-height: 56px; padding: 12px 56px 12px 52px; border: 0; border-radius: 12px; background: #fff; color: var(--ink); font-size: 18px; box-shadow: var(--shadow-lg); }

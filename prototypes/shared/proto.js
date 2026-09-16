@@ -20,10 +20,8 @@ window.P = (() => {
     { id: 'q-beyond', name: 'Q · Labels only', hyp: 'Same as P, except Beyond the book drops the pattern marks and lets the label do the work. Compare the two sections.' },
     { id: 'r-circle', name: 'R · Circles back', hyp: 'Circled numbers restored, Beyond the book as N’s rows at P’s shorter height, smaller centred footer with a one-line pattern credit.' },
     { id: 's-cards', name: 'S · Beyond as cards', hyp: 'Same as R, except Beyond the book uses the same containers as Slides.' },
-    { id: 'u-merged', name: 'U · One section', hyp: 'No “Beyond the book” at all: one list in teaching order, each extra deck straight after its lecture, as the live site does.' },
-    { id: 'v-search', name: 'V · Search', hyp: 'The “with features” version to show the lecturer: search that points at the exact slide, extras as cards, and a notice slot.' },
-    { id: 'w-ink', name: 'W · U, own look', hyp: 'U re-coloured away from heropatterns.com: dark teal header, paper background, light footer, system font.' },
-    { id: 'x-ink', name: 'X · V, own look', hyp: 'V with the same new look as W.' },
+    { id: 'final-default', name: 'Final A · Default', hyp: 'The current site, redesigned: every lecture in teaching order, extras after their lecture.' },
+    { id: 'final-search', name: 'Final B · With search', hyp: 'A, plus a search box that finds lectures and the exact slides, and a notice line.' },
   ];
 
   const store = {
@@ -195,7 +193,7 @@ window.P = (() => {
   });
 
   // The versions shown to the professor carry no prototype controls.
-  const PRESENTED = new Set(['u-merged', 'v-search', 'w-ink', 'x-ink']);
+  const PRESENTED = new Set(['final-default', 'final-search']);
 
   function bar(id) {
     if (PRESENTED.has(id)) return;

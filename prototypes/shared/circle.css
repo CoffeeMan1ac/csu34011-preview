@@ -36,7 +36,7 @@
 .n-body h3 { font-size: 22px; font-weight: 600; line-height: 1.2; }
 .n-body p { color: var(--grey-600); }
 .n-num { display: none; }
-.n-also { font-size: 15px; font-weight: 500; }
+.n-also { align-self: flex-start; padding-block: 3px; font-size: 15px; font-weight: 500; }
 .n-with { align-self: flex-start; padding: 2px 10px; border-radius: 999px; background: var(--teal-100); color: var(--teal-800); font-size: 14px; font-weight: 500; }
 .n-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: auto; padding-top: 16px; }
 /* A lone Slides button keeps the width it would have beside Exercises, rather than filling the card. */
@@ -100,4 +100,21 @@
 .n-foot { padding: 30px 0 24px; background: var(--purple-900); color: #C9C3D3; font-size: 19px; text-align: center; }
 .n-foot a { color: #fff; }
 .n-foot small { display: block; margin-top: 10px; font-size: 11px; color: #837C92; }
-.n-foot small a { color: #9C93AC; }
+.n-foot small a { display: inline-block; padding-block: 6px; color: #9C93AC; }
+
+/* Skip link: the first thing a keyboard user reaches, hidden until focused. */
+.skip-link { position: absolute; left: 12px; top: -80px; z-index: 100; padding: 10px 16px; border-radius: 8px; background: #fff; color: var(--ink); font-weight: 700; box-shadow: var(--shadow-lg); }
+.skip-link:focus { top: 12px; }
+main:focus { outline: none; }
+
+/* Very narrow screens and large zoom: the title shrinks to fit, and would hyphenate before running off the edge. */
+.n-title { overflow-wrap: break-word; hyphens: auto; }
+@media (max-width: 380px) { .n-title { font-size: 13vw; } }
+
+/* Forced-colour modes (e.g. Windows high contrast): keep edges that were drawn only with background colour. */
+@media (forced-colors: active) {
+  .btn, .n-card, .n-q, .n-hits a, .n-hits .more, .n-art span { border: 1px solid CanvasText; }
+  .v-search input { border: 1px solid CanvasText !important; }
+  /* Decorative patterns are dropped so text sits on the plain system background. The patterns are inline styles. */
+  .b-head, .n-art, .r-bg { background-image: none !important; }
+}

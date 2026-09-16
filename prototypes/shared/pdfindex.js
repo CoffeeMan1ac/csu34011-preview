@@ -8,7 +8,20 @@ window.PDFINDEX = (() => {
   const TAIL = 1024;
   const READERS = 3;
   const PDFJS = new URL('vendor/pdfjs-4.10.38/', document.currentScript.src).href;
-  const seed = window.PDF_SEED || {};
+  // The bundled text is fetched only when search is first used, so plain visits don't download it.
+  const SEED_URL = new URL('pdf-seed.js', document.currentScript.src).href;
+  let seedLoading = null;
+  const loadSeed = () => (seedLoading ||= window.PDF_SEED ? Promise.resolve(window.PDF_SEED) : new Promise((done) => {
+    const tag = document.createElement('script');
+    tag.src = SEED_URL;
+    tag.onload = () => done(window.PDF_SEED || {});
+    tag.onerror = () => done({}); // no bundle: every file is read in the browser instead
+    document.head.append(tag);
+  }));
+
+  // Changed PDFs are read only once allowed: when someone starts searching, or earlier if the page decides to.
+  let allow;
+  const allowed = new Promise((go) => { allow = go; });
   const known = new Map();           // href -> pages, or null when the file can't be used
   const pending = new Map();         // href -> promise
   const stats = { seed: 0, saved: 0, read: 0, unavailable: 0 };
@@ -23,7 +36,11 @@ window.PDFINDEX = (() => {
 
   async function fingerprint(url) {
     const r = await fetch(url, { headers: { Range: `bytes=-${TAIL}` }, cache: 'no-store' });
-    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    if (!r.ok) {
+      // Release the error page's body, or the browser keeps the request open.
+      r.body?.cancel().catch(() => {});
+      throw new Error(`HTTP ${r.status}`);
+    }
     let size;
     let tail;
     let whole = null;
@@ -156,12 +173,14 @@ window.PDFINDEX = (() => {
     let whole;
     try { ({ fp, whole } = await fingerprint(url)); } catch { stats.unavailable++; return null; }
     current.set(href, fp);
+    const seed = await loadSeed();
     if (seed[href] && seed[href].fp === fp) { stats.seed++; fromBundle.add(href); return seed[href].pages; }
     fromBundle.delete(href);
     const saved = await store.get(fp);
     if (saved) { stats.saved++; return saved; }
     reading++;
     try {
+      await allowed;
       const pages = await limited(() => read(url, whole));
       stats.read++;
       store.put(fp, pages);
@@ -211,6 +230,7 @@ window.PDFINDEX = (() => {
     pages: (href) => known.get(href),
     buildSeed,
     busy: () => reading > 0,
+    startReading: () => allow(),
     stats: () => ({ ...stats, pdfjsLoaded: !!lib }),
     savedCount: () => store.count(),
     neededCount: (hrefs) => needed(hrefs).size,

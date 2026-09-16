@@ -1,4 +1,4 @@
-/* Page builder for R, S, U, V, W and X. `beyond` picks how the extra decks are laid out. */
+/* Page builder for the prototypes R and S and the final versions A and B. `beyond` picks how the extra decks are laid out. */
 window.CIRCLE = (() => {
   const { esc } = P;
   const cap = (s) => s[0].toUpperCase() + s.slice(1);
@@ -6,6 +6,7 @@ window.CIRCLE = (() => {
   // Everything the page links to is a file or another site, so all of it opens in a new tab and
   // this page stays where it was: PDFs (in the browser's own viewer), images, the log, SWISH.
   const TAB = ' target="_blank" rel="noopener"';
+  const NEW = '<span class="sr-only"> (opens in a new tab)</span>';
   const newTab = () => TAB;
   const isExternal = (href) => new URL(href, location.href).origin !== location.origin;
 
@@ -23,7 +24,7 @@ window.CIRCLE = (() => {
       <p class="n-code">CSU34011 · Trinity College Dublin</p>
       <nav class="n-quick" aria-label="Course">${quick.map((q) => `
         <a class="n-q ${q.cls}" href="${q.href}"${newTab(q.href)}>
-          ${UI.icon(q.icon, 34)}<span>${q.title}</span>
+          ${UI.icon(q.icon, 34)}<span>${q.title}${NEW}</span>
           ${isExternal(q.href) ? `<span class="ext">${UI.icon('external', 16)}</span>` : ''}
         </a>`).join('')}
       </nav>
@@ -36,13 +37,13 @@ window.CIRCLE = (() => {
   const inlineBlurb = (d) => {
     let html = esc(d.blurb);
     for (const x of (d.extras || []).filter((e) => e.type === 'pdf')) {
-      if (labelRe(x).test(html)) html = html.replace(labelRe(x), (m) => `<a href="${LPN.url(x.href)}"${TAB}>${m}</a>`);
+      if (labelRe(x).test(html)) html = html.replace(labelRe(x), (m) => `<a href="${LPN.url(x.href)}"${TAB}>${m}${NEW}</a>`);
     }
     return html;
   };
   const cardExtra = (d) => (x) => {
-    if (x.type === 'code') return `<a class="n-also" href="${LPN.url(x.href)}"${TAB}>Example program from the lecture</a>`;
-    return labelRe(x).test(d.blurb) ? '' : `<a class="n-also" href="${LPN.url(x.href)}"${TAB}>${esc(cap(x.label))}</a>`;
+    if (x.type === 'code') return `<a class="n-also" href="${LPN.url(x.href)}"${TAB}>Example program from the lecture${NEW}</a>`;
+    return labelRe(x).test(d.blurb) ? '' : `<a class="n-also" href="${LPN.url(x.href)}"${TAB}>${esc(cap(x.label))}${NEW}</a>`;
   };
 
   const card = (d) => {
@@ -54,8 +55,8 @@ window.CIRCLE = (() => {
         <p>${inlineBlurb(d)}</p>
         ${(d.extras || []).map(cardExtra(d)).join('')}
         <div class="n-actions">
-          <a class="btn btn-primary" data-deck="${d.id}" href="${LPN.url(d.slides)}"${TAB} aria-label="Slides: ${esc(what)}">Slides</a>
-          <a class="btn btn-white" href="${LPN.url(d.exercises)}"${TAB} aria-label="Exercises: ${esc(what)}">Exercises</a>
+          <a class="btn btn-primary" data-deck="${d.id}" href="${LPN.url(d.slides)}"${TAB} aria-label="Slides: ${esc(what)} (opens in a new tab)">Slides</a>
+          <a class="btn btn-white" href="${LPN.url(d.exercises)}"${TAB} aria-label="Exercises: ${esc(what)} (opens in a new tab)">Exercises</a>
         </div>
       </div>
     </article>`;
@@ -82,7 +83,7 @@ window.CIRCLE = (() => {
       <p class="r-sub">${esc(x.sub)}</p>
       ${x.with ? `<span class="r-with r-with-mobile">${x.with}</span>` : ''}
     </div>
-    <a class="btn btn-primary"${x.deck ? ` data-deck="${x.deck}"` : ''} href="${x.href}"${TAB} aria-label="Slides: ${esc(x.title)}">Slides</a>
+    <a class="btn btn-primary"${x.deck ? ` data-deck="${x.deck}"` : ''} href="${x.href}"${TAB} aria-label="Slides: ${esc(x.title)} (opens in a new tab)">Slides</a>
   </li>`;
 
   const beyondCard = (x) => `<article class="n-card no-num"${x.deck ? ` id="lecture-${x.deck}"` : ''}>
@@ -92,14 +93,14 @@ window.CIRCLE = (() => {
       <p>${esc(x.sub)}</p>
       ${x.with ? `<span class="n-with">${x.with}</span>` : ''}
       <div class="n-actions one">
-        <a class="btn btn-primary"${x.deck ? ` data-deck="${x.deck}"` : ''} href="${x.href}"${TAB} aria-label="Slides: ${esc(x.title)}">Slides</a>
+        <a class="btn btn-primary"${x.deck ? ` data-deck="${x.deck}"` : ''} href="${x.href}"${TAB} aria-label="Slides: ${esc(x.title)} (opens in a new tab)">Slides</a>
       </div>
     </div>
   </article>`;
 
   function support() {
     const s = Object.fromEntries(LPN.support.map((x) => [x.label, x]));
-    const link = (x, label) => `<a href="${LPN.url(x.href)}"${TAB}>${label}</a>`;
+    const link = (x, label) => `<a href="${LPN.url(x.href)}"${TAB}>${label}${NEW}</a>`;
     return `<section class="n-support" aria-labelledby="supportTitle"><div class="b-wrap">
       <h2 id="supportTitle">Support beyond Prolog</h2>
       <p>${link(s['Support beyond Prolog'], 'Wellbeing')} · ${link(s['Career support'], 'Careers')} ·
@@ -108,8 +109,8 @@ window.CIRCLE = (() => {
   }
 
   const footer = () => `<footer class="n-foot"><div class="b-wrap">
-    Site by <a href="https://denys.sh"${TAB}>Denys</a>
-    <small>Hero Patterns <a href="https://creativecommons.org/licenses/by/4.0/"${TAB}>CC BY 4.0</a></small>
+    Site by <a href="https://denys.sh"${TAB}>Denys${NEW}</a>
+    <small>Hero Patterns <a href="https://creativecommons.org/licenses/by/4.0/"${TAB}>CC BY 4.0${NEW}</a></small>
   </div></footer>`;
 
   // One section: every deck in teaching order, each extra straight after the lecture it belongs to.
@@ -120,7 +121,7 @@ window.CIRCLE = (() => {
       <div class="n-body">
         <h3>${esc(why.title)}</h3>
         <p>The opening lecture: logic and the search for truth</p>
-        <div class="n-actions one"><a class="btn btn-primary" data-deck="${why.id}" href="${P.slidesHref(why)}"${TAB} aria-label="Slides: ${esc(why.title)}">Slides</a></div>
+        <div class="n-actions one"><a class="btn btn-primary" data-deck="${why.id}" href="${P.slidesHref(why)}"${TAB} aria-label="Slides: ${esc(why.title)} (opens in a new tab)">Slides</a></div>
       </div></article>`];
     for (const d of LPN.decks.filter((x) => x.kind === 'chapter')) {
       out.push(card(d));
@@ -132,8 +133,9 @@ window.CIRCLE = (() => {
   }
 
   const page = ({ beyond = 'rows' } = {}) => `
+    <a class="skip-link" href="#main">Skip to lectures</a>
     ${header()}
-    <main class="b-main"><div class="b-wrap">
+    <main class="b-main" id="main" tabindex="-1"><div class="b-wrap">
       <div class="n-head2"><h2>Slides</h2><p>from Learn Prolog Now and more</p></div>
       ${beyond === 'merged' ? `<div class="n-grid">${mergedCards()}</div>` : `
         <div class="n-grid">${LPN.decks.filter((d) => d.kind === 'chapter').map((d) => card(d)).join('')}</div>
