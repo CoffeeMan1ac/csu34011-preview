@@ -31,7 +31,7 @@
 @media (max-width: 900px) { .n-grid { grid-template-columns: 1fr 1fr; } }
 .n-card { position: relative; display: flex; flex-direction: column; overflow: hidden; border-radius: 16px; background: #fff; box-shadow: var(--shadow-md); }
 .n-art { position: relative; height: 112px; }
-.n-art span { position: absolute; left: 20px; bottom: -26px; display: grid; place-items: center; min-width: 56px; height: 56px; padding: 0 12px; border-radius: 999px; background: #fff; color: var(--purple-900); font-size: 24px; font-weight: 700; box-shadow: var(--shadow-md); }
+.n-art > span { position: absolute; left: 20px; bottom: -26px; display: grid; place-items: center; min-width: 56px; height: 56px; padding: 0 12px; border-radius: 999px; background: #fff; color: var(--purple-900); font-size: 24px; font-weight: 700; box-shadow: var(--shadow-md); }
 .n-body { display: flex; flex: 1; flex-direction: column; gap: 6px; padding: 38px 20px 20px; }
 .n-body h3 { font-size: 22px; font-weight: 600; line-height: 1.2; }
 .n-body p { color: var(--grey-600); }
@@ -80,9 +80,6 @@
   .n-num { display: block; min-width: 1.1em; color: var(--purple-600); font-size: 19px; font-weight: 700; }
   .n-body p, .n-also, .n-with { margin-left: 34px; }
   .n-actions { padding-top: 14px; padding-left: 34px; }
-  /* Cards with no number (the extras) line up with the lecture titles above them. */
-  .n-card.no-num .n-body > * { margin-left: 34px; }
-  .n-card.no-num .n-body .n-actions { margin-left: 0; }
   /* Indent by the width of a lecture number, so extras line up with the lecture titles above. */
   .r-row { grid-template-columns: 1fr; gap: 12px; padding: 18px 20px; }
   .r-mark, .r-bg { display: none; }
@@ -113,7 +110,7 @@ main:focus { outline: none; }
 
 /* Forced-colour modes (e.g. Windows high contrast): keep edges that were drawn only with background colour. */
 @media (forced-colors: active) {
-  .btn, .n-card, .n-q, .n-hits a, .n-hits .more, .n-art span { border: 1px solid CanvasText; }
+  .btn, .n-card, .n-q, .n-hits a, .n-hits .more, .n-art > span { border: 1px solid CanvasText; }
   .v-search input { border: 1px solid CanvasText !important; }
   /* Decorative patterns are dropped so text sits on the plain system background. The patterns are inline styles. */
   .b-head, .n-art, .r-bg { background-image: none !important; }

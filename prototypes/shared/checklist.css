@@ -1,0 +1,45 @@
+/* Version C: tick box, done state, progress chain, confirmation. */
+:root { --done: #2E7D32; --done-tint: #F2F8F2; }
+
+/* Tick box to the left of Slides, same height as the buttons. */
+.c-actions, .c-actions.one { grid-template-columns: 50px 1fr 1fr; }
+.c-actions.one > .btn { grid-column: 2; }
+.c-box { appearance: none; width: 50px; height: 50px; margin: 0; border: 2px solid var(--grey-300); border-radius: 10px; background: #fff center / 26px no-repeat; cursor: pointer; transition: background-color .15s ease, border-color .15s ease; }
+.c-box:hover { border-color: var(--done); }
+.c-box:checked { border-color: var(--done); background-color: var(--done); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4.5 12.75 6 6 9-13.5'/%3E%3C/svg%3E"); }
+
+/* Done: the card sits back a little, and its number turns into a green tick. */
+.n-card.is-done { background: var(--done-tint); box-shadow: var(--shadow-sm); }
+.c-tick { display: none; }
+.is-done .c-mark { display: none; }
+.is-done .c-tick { display: contents; }
+.n-card.is-done .n-art > span { background: var(--done); color: #fff; }
+.n-art .c-tick svg { width: 28px; height: 28px; }
+.n-card.is-done .n-num { color: var(--done); }
+.n-num .c-tick svg { width: 20px; height: 20px; vertical-align: -3px; }
+
+/* Heading on the left, chain on the right; the chain moves under the heading when space runs out. */
+.c-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px 32px; }
+.c-chain { display: flex; flex-wrap: wrap; row-gap: 8px; margin: 0; padding: 0; list-style: none; }
+.c-chain li { display: flex; align-items: center; }
+.c-chain li + li::before { content: ''; width: 8px; height: 2px; background: var(--grey-300); }
+.c-chain li:has(> .is-done) + li:has(> .is-done)::before { background: var(--done); }
+.c-chain a { display: grid; place-items: center; width: 30px; height: 30px; border: 2px solid var(--grey-300); border-radius: 999px; background: #fff; color: var(--grey-600); font-size: 13px; font-weight: 700; text-decoration: none; transition: background-color .15s ease, border-color .15s ease; }
+.c-chain a:hover { border-color: var(--done); }
+.c-chain a.is-done { border-color: var(--done); background: var(--done); color: #fff; }
+.n-card { scroll-margin-top: 16px; }
+@media (max-width: 600px) {
+  .c-chain li + li::before { width: 4px; }
+  .c-chain a { width: 24px; height: 24px; font-size: 12px; }
+}
+
+/* Short confirmation at the bottom; screen readers hear it as a status message. */
+.c-toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); z-index: 50; display: flex; align-items: center; gap: 8px; width: max-content; max-width: calc(100% - 32px); padding: 10px 18px; border-radius: 999px; background: var(--ink); color: #fff; font-size: 16px; box-shadow: var(--shadow-lg); opacity: 0; transform: translate(-50%, 8px); pointer-events: none; transition: opacity .18s ease, transform .18s ease; }
+.c-toast.on { opacity: 1; transform: translate(-50%, 0); }
+.c-toast svg { color: #8FD694; }
+
+@media (forced-colors: active) {
+  .c-box, .c-chain a, .n-card.is-done .n-art > span { forced-color-adjust: none; border: 2px solid CanvasText; background-color: Canvas; color: CanvasText; }
+  .c-box:checked, .c-chain a.is-done, .n-card.is-done .n-art > span { background-color: Highlight; color: HighlightText; }
+  .c-toast { border: 1px solid CanvasText; }
+}

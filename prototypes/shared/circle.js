@@ -86,10 +86,10 @@ window.CIRCLE = (() => {
     <a class="btn btn-primary"${x.deck ? ` data-deck="${x.deck}"` : ''} href="${x.href}"${TAB} aria-label="Slides: ${esc(x.title)} (opens in a new tab)">Slides</a>
   </li>`;
 
-  const beyondCard = (x) => `<article class="n-card no-num"${x.deck ? ` id="lecture-${x.deck}"` : ''}>
+  const beyondCard = (x) => `<article class="n-card"${x.deck ? ` id="lecture-${x.deck}"` : ''}>
     <div class="n-art" style="${x.style}"><span aria-hidden="true">${x.mark}</span></div>
     <div class="n-body">
-      <h3>${esc(x.title)}</h3>
+      <h3><span class="n-num" aria-hidden="true">${x.mark}</span><span>${esc(x.title)}</span></h3>
       <p>${esc(x.sub)}</p>
       ${x.with ? `<span class="n-with">${x.with}</span>` : ''}
       <div class="n-actions one">
@@ -116,10 +116,10 @@ window.CIRCLE = (() => {
   // One section: every deck in teaching order, each extra straight after the lecture it belongs to.
   function mergedCards() {
     const why = LPN.byId.why;
-    const out = [`<article class="n-card no-num">
+    const out = [`<article class="n-card" id="lecture-${why.id}">
       <div class="n-art" style="${UI.deckStyle(why)}"><span aria-hidden="true">0</span></div>
       <div class="n-body">
-        <h3>${esc(why.title)}</h3>
+        <h3><span class="n-num" aria-hidden="true">0</span><span>${esc(why.title)}</span></h3>
         <p>The opening lecture: logic and the search for truth</p>
         <div class="n-actions one"><a class="btn btn-primary" data-deck="${why.id}" href="${P.slidesHref(why)}"${TAB} aria-label="Slides: ${esc(why.title)} (opens in a new tab)">Slides</a></div>
       </div></article>`];
