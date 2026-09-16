@@ -46,17 +46,26 @@ window.CHECKLIST = (() => {
         `<input type="checkbox" class="c-box" data-done="${id}" title="Mark as done" aria-label="Done: ${P.esc(name)}">`);
     }
 
-    // One chain for the whole list: beside the heading, or under it when space is short.
+    // One chain of slanted segments for the whole list, always one row: beside the heading, or under it
+    // when space is short. Segments share the width, so added lectures still fit.
     const text = document.createElement('div');
     text.append(...head.childNodes);
     head.append(text);
     head.classList.add('c-head');
-    head.insertAdjacentHTML('beforeend', `<ol class="c-chain">${cards.map((card) => {
+    head.insertAdjacentHTML('beforeend', `<div class="c-progress">
+      <p class="c-count"></p>
+      <ol class="c-chain" aria-label="Lectures">${cards.map((card) => {
       const id = idOf(card);
       return `<li><a href="#${card.id}" data-chain="${id}">
-        <span class="c-mark">${card.querySelector('.c-mark').textContent}</span><span class="c-tick">${tick(22)}</span></a></li>`;
-    }).join('')}</ol>`);
+        <span class="c-mark">${card.querySelector('.c-mark').textContent}</span><span class="c-tick">${tick(20)}</span></a></li>`;
+    }).join('')}</ol></div>`);
     const chain = head.querySelector('.c-chain');
+    const countEl = head.querySelector('.c-count');
+    // On phones the segments are too narrow to tap well (WCAG 2.5.8), so there the chain only shows progress.
+    const narrow = matchMedia('(max-width: 600px)');
+    const fit = () => { chain.inert = narrow.matches; };
+    narrow.addEventListener('change', fit);
+    fit();
 
     document.body.insertAdjacentHTML('beforeend', '<div class="c-toast" role="status"></div>');
     const toast = document.body.lastElementChild;
@@ -83,7 +92,7 @@ window.CHECKLIST = (() => {
         link.classList.toggle('is-done', on);
         link.setAttribute('aria-label', `${names.get(link.dataset.chain)}${on ? ', done' : ''}`);
       }
-      chain.setAttribute('aria-label', `Progress: ${count} of ${cards.length} done`);
+      countEl.textContent = `${count} of ${cards.length} done`;
     }
 
     function set(el, on) {
