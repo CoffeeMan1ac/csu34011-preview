@@ -1,10 +1,18 @@
 /* Version C: clickable number circle (wide screens), tick box (phones), progress chain, confirmation. */
-:root { --done: #2E7D32; --done-tint: #F2F8F2; }
+:root { --done: #2E7D32; --done-dark: #256628; --done-hover: #D7ECD8; --done-tint: #F2F8F2; }
 
 /* The number circle is the button. It takes over the look of the circle it replaces. */
 .n-art > .c-circle { position: absolute; left: 20px; bottom: -26px; display: grid; place-items: center; min-width: 56px; height: 56px; padding: 0 12px; border: 0; border-radius: 999px; background: #fff; color: var(--purple-900); font: inherit; font-size: 24px; font-weight: 700; box-shadow: var(--shadow-md); cursor: pointer; transition: background-color .15s ease, box-shadow .15s ease, color .15s ease; }
-.n-art > .c-circle:hover { box-shadow: var(--shadow-md), 0 0 0 3px var(--done); }
+.n-art > .c-circle:hover { background: var(--done-hover); }
 .n-card.is-done .c-circle { background: var(--done); color: #fff; }
+.n-card.is-done .n-art > .c-circle:hover { background: var(--done-dark); }
+
+/* Version D: the whole card ticks (the circle still shows it). Hovering the card previews the circle. */
+.c-whole .n-card { cursor: pointer; }
+.c-whole .n-card:hover:not(:has(a:hover, button:hover, input:hover)) { box-shadow: var(--shadow-lg); }
+.c-whole .n-card:hover:not(:has(a:hover, input:hover)) .c-circle { background: var(--done-hover); }
+.c-whole .n-card.is-done:hover:not(:has(a:hover, input:hover)) .c-circle { background: var(--done-dark); }
+.c-whole .n-card :is(a, .btn) { cursor: pointer; }
 .c-tick { display: none; }
 .is-done > .c-mark, .is-done .c-circle .c-mark { display: none; }
 .is-done > .c-tick, .is-done .c-circle .c-tick { display: contents; }
@@ -27,7 +35,8 @@
 .c-chain li:nth-child(16n)::after { display: none; }
 .c-chain li:has(> .is-done):has(+ li > .is-done)::after { background: var(--done); }
 .c-chain a { display: grid; place-items: center; width: var(--c); height: var(--c); border: 3px solid var(--grey-300); border-radius: 999px; background: #fff; color: var(--grey-700); font-size: 18px; font-weight: 700; text-decoration: none; transition: background-color .15s ease, border-color .15s ease; }
-.c-chain a:hover { border-color: var(--done); }
+.c-chain a:hover { background: var(--done-hover); }
+.c-chain a.is-done:hover { background: var(--done-dark); }
 .c-chain a.is-done { border-color: var(--done); background: var(--done); color: #fff; }
 .n-card { scroll-margin-top: 16px; }
 @media (max-width: 1000px) {

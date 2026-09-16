@@ -23,8 +23,11 @@ window.CHECKLIST = (() => {
   const nameOf = (card, mark) => (/^\d+$/.test(mark) && mark !== '0'
     ? `Lecture ${mark}` : card.querySelector('h3 > span:last-child').textContent.trim());
 
-  function mount() {
+  // wholeCard: a click anywhere on a card that isn't a link or control ticks it (the circle stays the
+  // keyboard and screen reader control).
+  function mount({ wholeCard = false } = {}) {
     const main = document.querySelector('.b-main');
+    main.classList.toggle('c-whole', wholeCard);
     const head = main.querySelector('.n-head2');
     const cards = [...main.querySelectorAll('.n-card')];
     const names = new Map();
@@ -93,7 +96,15 @@ window.CHECKLIST = (() => {
       say(`${names.get(el.dataset.done)} ${on ? 'marked as done' : 'unmarked'}`);
     }
     document.addEventListener('click', (e) => {
-      const circle = e.target.closest('.c-circle');
+      let circle = e.target.closest('.c-circle');
+      if (!circle && wholeCard) {
+        const card = e.target.closest('.c-whole .n-card');
+        // Links and buttons keep their own job, and selecting text doesn't tick anything.
+        if (!card || e.target.closest('a, button, input, label') || String(getSelection())) return;
+        const box = card.querySelector('.c-box');
+        if (getComputedStyle(box).display !== 'none') { box.click(); return; }
+        circle = card.querySelector('.c-circle');
+      }
       if (circle) set(circle, circle.getAttribute('aria-pressed') !== 'true');
     });
     document.addEventListener('change', (e) => {
