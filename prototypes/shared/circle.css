@@ -1,0 +1,103 @@
+/* Shared by R and S: circled numbers back, shorter Beyond-the-book rows, full-width bands on phones. */
+.b-wrap { max-width: 1320px; }
+
+.b-head { padding: 72px 0 44px; }
+.n-title { font-size: clamp(52px, 9vw, 108px); font-weight: 700; letter-spacing: -.03em; line-height: .95; }
+.n-code { margin-top: 12px; font-size: clamp(19px, 2.2vw, 30px); font-weight: 600; color: var(--purple-200); }
+
+.n-quick { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 52px; }
+.n-q { position: relative; display: flex; align-items: center; gap: 16px; min-height: 92px; padding: 18px 22px; border-radius: 14px; color: var(--ink); text-decoration: none; font-size: 21px; font-weight: 700; box-shadow: var(--shadow-lg); transition: box-shadow .12s; }
+.n-q:hover { box-shadow: var(--shadow-xl), 0 0 0 3px rgba(255, 255, 255, .7); }
+.n-q .ext { position: absolute; top: 10px; right: 12px; opacity: .55; }
+.q-info { background: var(--amber-100); color: var(--amber-800); }
+.q-swish { background: var(--teal-100); color: var(--teal-800); }
+.q-log { background: var(--purple-100); color: var(--purple-800); }
+.q-book { background: var(--rose-100); color: var(--rose-800); }
+@media (max-width: 900px) { .n-quick { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) {
+  .b-head { padding: 48px 0 36px; }
+  .n-quick { gap: 12px; margin-top: 36px; }
+  .n-q { flex-direction: column; align-items: flex-start; justify-content: center; gap: 10px; min-height: 104px; padding: 16px; font-size: 18px; line-height: 1.2; }
+}
+
+.b-main { padding: 64px 0 72px; }
+.n-head2 { margin-bottom: 24px; }
+.n-head2 h2 { font-size: clamp(32px, 4.4vw, 46px); font-weight: 700; letter-spacing: -.02em; }
+.n-head2 p { margin-top: 6px; font-size: 17px; color: var(--grey-600); }
+
+/* Cards: the circled number is back, sitting on the edge of the pattern. */
+.n-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+@media (max-width: 1180px) { .n-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 900px) { .n-grid { grid-template-columns: 1fr 1fr; } }
+.n-card { position: relative; display: flex; flex-direction: column; overflow: hidden; border-radius: 16px; background: #fff; box-shadow: var(--shadow-md); }
+.n-art { position: relative; height: 112px; }
+.n-art span { position: absolute; left: 20px; bottom: -26px; display: grid; place-items: center; min-width: 56px; height: 56px; padding: 0 12px; border-radius: 999px; background: #fff; color: var(--purple-900); font-size: 24px; font-weight: 700; box-shadow: var(--shadow-md); }
+.n-body { display: flex; flex: 1; flex-direction: column; gap: 6px; padding: 38px 20px 20px; }
+.n-body h3 { font-size: 22px; font-weight: 600; line-height: 1.2; }
+.n-body p { color: var(--grey-600); }
+.n-num { display: none; }
+.n-also { font-size: 15px; font-weight: 500; }
+.n-with { align-self: flex-start; padding: 2px 10px; border-radius: 999px; background: var(--teal-100); color: var(--teal-800); font-size: 14px; font-weight: 500; }
+.n-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: auto; padding-top: 16px; }
+/* A lone Slides button keeps the width it would have beside Exercises, rather than filling the card. */
+.n-actions.one { grid-template-columns: 1fr 1fr; }
+.n-actions.one > * { grid-column: 1; }
+
+/* Short, quiet motion. hero.css turns all of it off under prefers-reduced-motion. */
+.n-card, .r-row { transition: box-shadow .18s ease; }
+.n-q { transition: box-shadow .16s ease, transform .16s ease; }
+.n-q:hover { transform: translateY(-2px); }
+.btn { transition: background-color .15s ease, box-shadow .15s ease, color .15s ease, transform .08s ease; }
+.btn:active { transform: translateY(1px); }
+@keyframes riseIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.n-card, .r-row { animation: riseIn .22s ease both; }
+.n-hits a { animation: riseIn .18s ease both; }
+
+.n-actions .btn { min-height: 50px; border-radius: 10px; font-size: 17px; }
+
+/* Beyond the book as rows: same parts as before, less height. */
+.r-list { list-style: none; margin: 0; padding: 0; overflow: hidden; border-radius: 16px; background: #fff; box-shadow: var(--shadow-md); }
+.r-row { position: relative; display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; align-items: center; gap: 18px; padding: 12px 24px; overflow: hidden; }
+.r-row + .r-row { border-top: 1px solid var(--grey-200); }
+.r-bg { position: absolute; left: 0; top: 0; bottom: 0; width: min(44%, 460px); -webkit-mask-image: linear-gradient(90deg, #000 0%, rgba(0, 0, 0, .5) 50%, transparent 100%); mask-image: linear-gradient(90deg, #000 0%, rgba(0, 0, 0, .5) 50%, transparent 100%); }
+.r-mark { position: relative; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 999px; background: #fff; color: var(--purple-900); font-size: 18px; font-weight: 700; box-shadow: var(--shadow-sm); }
+.r-row > div { position: relative; }
+.r-row h3 { font-size: 21px; font-weight: 600; line-height: 1.25; }
+.r-sub { margin-top: 3px; font-size: 15px; color: var(--grey-600); }
+.r-with { display: inline-block; padding: 1px 9px; border-radius: 999px; background: var(--teal-100); color: var(--teal-800); font-size: 14px; font-weight: 500; vertical-align: middle; }
+.r-with-title { margin-left: 10px; }
+.r-with-mobile { display: none; }
+.r-row .btn { min-width: 120px; min-height: 46px; border-radius: 10px; font-size: 16px; }
+
+/* Phones: every list becomes full-width bands, edge to edge. */
+@media (max-width: 600px) {
+  .n-grid, .r-list { display: block; margin-inline: -20px; border-radius: 0; box-shadow: none; }
+  .n-card, .r-row { border-radius: 0; box-shadow: none; border-top: 1px solid var(--grey-200); }
+  .n-card:first-child, .r-row:first-child { border-top: 0; }
+  .n-art { display: none; }
+  .n-body { padding: 18px 20px 20px; gap: 4px; }
+  .n-body h3 { display: flex; align-items: baseline; gap: 12px; font-size: 21px; }
+  .n-num { display: block; min-width: 1.1em; color: var(--purple-600); font-size: 19px; font-weight: 700; }
+  .n-body p, .n-also, .n-with { margin-left: 34px; }
+  .n-actions { padding-top: 14px; padding-left: 34px; }
+  /* Cards with no number (the extras) line up with the lecture titles above them. */
+  .n-card.no-num .n-body > * { margin-left: 34px; }
+  .n-card.no-num .n-body .n-actions { margin-left: 0; }
+  /* Indent by the width of a lecture number, so extras line up with the lecture titles above. */
+  .r-row { grid-template-columns: 1fr; gap: 12px; padding: 18px 20px; }
+  .r-mark, .r-bg { display: none; }
+  .r-row > div, .r-row .btn { margin-left: 34px; }
+  .r-row .btn { width: calc(100% - 34px); }
+  .r-with-title { display: none; }
+  .r-with-mobile { display: inline-block; margin-top: 8px; }
+}
+
+.n-support { padding: 40px 0; background: #fff; border-top: 1px solid var(--grey-200); }
+.n-support h2 { font-size: 22px; font-weight: 700; }
+.n-support p { margin-top: 8px; font-size: 17px; color: var(--grey-700); }
+.n-support a { color: var(--purple-700); font-weight: 500; }
+
+.n-foot { padding: 30px 0 24px; background: var(--purple-900); color: #C9C3D3; font-size: 19px; text-align: center; }
+.n-foot a { color: #fff; }
+.n-foot small { display: block; margin-top: 10px; font-size: 11px; color: #837C92; }
+.n-foot small a { color: #9C93AC; }

@@ -1,0 +1,34 @@
+/* V and X: the search box, its results, and the optional notice. */
+.v-search { position: relative; max-width: 640px; margin-top: 28px; }
+.v-search > .icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--purple-500); pointer-events: none; }
+.v-search input { width: 100%; min-height: 56px; padding: 12px 56px 12px 52px; border: 0; border-radius: 12px; background: #fff; color: var(--ink); font-size: 18px; box-shadow: var(--shadow-lg); }
+.v-search input:focus { outline: none; box-shadow: var(--shadow-lg), 0 0 0 4px var(--purple-300); }
+.v-clear { position: absolute; right: 8px; top: 50%; display: none; place-items: center; width: 40px; height: 40px; transform: translateY(-50%); border: 0; border-radius: 999px; background: none; color: var(--grey-500); }
+.v-clear:hover { background: var(--grey-100); color: var(--ink); }
+
+/* Searching shows the search field and one grid of results, and nothing else. */
+body.searching .v-clear { display: grid; }
+body.searching .n-quick,
+body.searching .n-support,
+body.searching .v-notice { display: none; }
+.v-browse[hidden], .v-results[hidden] { display: none; }
+
+/* Matched pages take the slack above the buttons, so every button row sits on the card's bottom edge. */
+.n-hits { list-style: none; display: flex; flex: 1 1 auto; flex-wrap: wrap; align-content: flex-start; gap: 6px; margin: 14px 0 0; padding: 0; }
+.n-hits a, .n-hits .more { display: block; padding: 3px 9px; border: 0; border-radius: 6px; font: 500 13px/1.5 var(--mono); text-decoration: none; cursor: pointer; }
+.n-hits a { background: var(--amber-100); color: var(--amber-800); }
+.n-hits a:hover { background: var(--amber-400); color: #3a2a00; }
+.n-hits .more { background: var(--grey-100); color: var(--grey-700); }
+.n-hits .more:hover { background: var(--grey-200); color: var(--ink); }
+.v-none { padding: 40px 4px; font-size: 19px; color: var(--grey-600); }
+@media (max-width: 600px) { .n-hits { margin-left: 34px; } }
+
+/* Optional one-line notice, for anything the lecturer wants to say at the top. */
+.v-notice { padding: 14px 0; background: var(--amber-50); border-bottom: 1px solid var(--amber-100); font-size: 17px; color: var(--amber-800); }
+.v-notice b { font-weight: 700; }
+
+/* "Searching slides…" while changed PDFs are read. */
+.v-status { min-height: 1.5em; margin-top: 10px; font-size: 15px; color: #fff; opacity: 0; transition: opacity .15s ease; }
+.v-status.on { opacity: .85; }
+.v-status.on::before { content: ''; display: inline-block; width: 12px; height: 12px; margin-right: 8px; vertical-align: -1px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: vspin .8s linear infinite; }
+@keyframes vspin { to { transform: rotate(360deg); } }

@@ -1,0 +1,42 @@
+/* "Ink & paper": the same layout without the heropatterns.com look.
+   Replaces its signatures: lavender and purple, the dark purple footer, and Roboto.
+   The shade names stay (--purple-*) so the other stylesheets need no changes; only the colours move. */
+@import url('./vendor/fonts/atkinson/atkinson.css');
+
+:root {
+  /* One bundled font, so every machine shows the same page. Designed for legibility at every size. */
+  --font: 'Atkinson Hyperlegible', system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+
+  /* primary: deep teal instead of lavender */
+  --purple-50: #EEF5F4; --purple-100: #DCEBE9; --purple-200: #B9D6D3; --purple-300: #8FBDB8; --purple-400: #5E9C99;
+  --purple-500: #2F7C7A; --purple-600: #1E6563; --purple-700: #185250; --purple-800: #143F3E; --purple-900: #10302F;
+
+  /* warm paper neutrals instead of cool grey */
+  --grey-50: #FAF8F4; --grey-100: #F1EEE7; --grey-200: #E4DFD4; --grey-300: #CFC8BA; --grey-400: #9E978A;
+  --grey-500: #6B665C; --grey-600: #57534A; --grey-700: #423F38; --grey-800: #2E2C27;
+  --ink: #1F2A30;
+
+  /* quick-link tints: sand, slate blue, teal, terracotta */
+  --amber-50: #FBF5EA; --amber-100: #F3E5C9; --amber-400: #E2B865; --amber-800: #6E4E12;
+  --teal-50: #EEF3F9; --teal-100: #DCE6F2; --teal-400: #7FA0C6; --teal-600: #4A6E96; --teal-700: #3A5A7E; --teal-800: #23405F;
+  --rose-50: #FBF1EC; --rose-100: #F3DDD2; --rose-600: #A85A3C; --rose-800: #7A3B26;
+
+  --shadow-sm: 0 1px 3px rgba(20, 30, 30, .10), 0 1px 2px rgba(20, 30, 30, .06);
+  --shadow-md: 0 4px 6px -1px rgba(20, 30, 30, .09), 0 2px 4px -1px rgba(20, 30, 30, .05);
+  --shadow-lg: 0 10px 15px -3px rgba(20, 30, 30, .10), 0 4px 6px -2px rgba(20, 30, 30, .05);
+  --shadow-xl: 0 20px 25px -5px rgba(20, 30, 30, .14), 0 10px 10px -5px rgba(20, 30, 30, .05);
+}
+
+/* Title in the ink font, a little tighter. */
+.n-title { letter-spacing: -.035em; }
+.n-code { color: #CFE3E0; }
+
+/* SWISH keeps a green-teal of its own so it does not blend into the primary colour. */
+.q-swish { background: #D9EEE3; color: #1F5A40; }
+.q-log { background: var(--teal-100); color: var(--teal-800); }
+
+/* Light footer instead of the dark purple band. */
+.n-foot { background: #E9E4DA; color: var(--grey-600); border-top: 1px solid var(--grey-200); }
+.n-foot a { color: var(--ink); }
+.n-foot small { color: var(--grey-500); }
+.n-foot small a { color: var(--grey-600); }

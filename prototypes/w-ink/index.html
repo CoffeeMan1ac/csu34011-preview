@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>W · U, own look — CSU34011 Symbolic Programming</title>
+<!--
+  Background patterns from Hero Patterns by Steve Schoger (https://heropatterns.com),
+  licensed CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Recoloured for this site.
+-->
+<link rel="stylesheet" href="../shared/hero.css">
+<link rel="stylesheet" href="../shared/bold.css">
+<link rel="stylesheet" href="../shared/circle.css">
+<link rel="stylesheet" href="../shared/theme-ink.css">
+</head>
+<body>
+<div id="app"></div>
+
+<script src="../shared/theme-ink.js"></script>
+<script src="../shared/data.js"></script>
+<script src="../shared/search-index.js"></script>
+<script src="../shared/proto.js"></script>
+<script src="../shared/hero-patterns.js"></script>
+<script src="../shared/hero.js"></script>
+<script src="../shared/circle.js"></script>
+<script>
+  P.bar('w-ink');
+  // U's layout and content, in the "ink & paper" colours.
+  document.getElementById('app').innerHTML = CIRCLE.page({ beyond: 'merged' });
+</script>
+<div aria-hidden="true" style="position:fixed;left:12px;bottom:12px;z-index:99;padding:4px 10px;border-radius:999px;background:rgba(20,20,20,.72);color:#fff;font:600 12px/1.4 system-ui,sans-serif;letter-spacing:.04em">Preview</div>
+</body>
+</html>

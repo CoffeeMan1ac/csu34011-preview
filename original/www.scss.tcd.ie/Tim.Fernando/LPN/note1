@@ -1,0 +1,24 @@
+mortal(human).            % humans are mortal
+
+human(socrates).          % Socrates is human
+
+% mortal(X) :- human(X).  % every human is mortal
+                          % non-contiguous code
+
+% human(_) :- false.      % anonymous variable _
+
+% :- dynamic(human/1).    % LPN Chapter 11
+
+
+
+
+
+
+/** <examples>
+
+?- mortal(X).
+?- mortal(socrates).
+?- listing(mortal).
+?- listing(human).
+
+*/
