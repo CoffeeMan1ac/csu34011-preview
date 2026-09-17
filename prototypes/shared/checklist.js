@@ -26,6 +26,7 @@ window.CHECKLIST = (() => {
 
   function mount() {
     const main = document.querySelector('.b-main');
+    document.body.classList.add('c-on');
     const head = main.querySelector('.n-head2');
     const cards = [...main.querySelectorAll('.n-card')];
     const names = new Map();
@@ -45,25 +46,19 @@ window.CHECKLIST = (() => {
     }
 
     // One chain of slanted segments for the whole list, always one row: beside the heading, or under it
-    // when space is short. Segments share the width, so added lectures still fit.
+    // when space is short. Segments share the width, so added lectures still fit. It only shows progress;
+    // screen readers get the count instead.
     const text = document.createElement('div');
     text.append(...head.childNodes);
     head.append(text);
     head.classList.add('c-head');
     head.insertAdjacentHTML('beforeend', `<div class="c-progress">
       <p class="c-count"></p>
-      <ol class="c-chain" aria-label="Lectures">${cards.map((card) => {
-      const id = idOf(card);
-      return `<li><a href="#${card.id}" data-chain="${id}">
-        <span class="c-mark">${card.querySelector('.c-mark').textContent}</span><span class="c-tick">${tick(20)}</span></a></li>`;
-    }).join('')}</ol></div>`);
+      <ol class="c-chain" aria-hidden="true">${cards.map((card) => `<li data-chain="${idOf(card)}">
+        <span class="c-mark">${card.querySelector('.c-mark').textContent}</span><span class="c-tick">${tick(20)}</span></li>`).join('')}</ol>
+    </div>`);
     const chain = head.querySelector('.c-chain');
     const countEl = head.querySelector('.c-count');
-    // On phones the segments are too narrow to tap well (WCAG 2.5.8), so there the chain only shows progress.
-    const narrow = matchMedia('(max-width: 600px)');
-    const fit = () => { chain.inert = narrow.matches; };
-    narrow.addEventListener('change', fit);
-    fit();
 
     document.body.insertAdjacentHTML('beforeend', '<div class="c-toast" role="status"></div>');
     const toast = document.body.lastElementChild;
@@ -84,11 +79,10 @@ window.CHECKLIST = (() => {
         el.closest('.n-card').classList.toggle('is-done', on);
       }
       let count = 0;
-      for (const link of chain.querySelectorAll('[data-chain]')) {
-        const on = done.has(link.dataset.chain);
+      for (const item of chain.querySelectorAll('[data-chain]')) {
+        const on = done.has(item.dataset.chain);
         count += on;
-        link.classList.toggle('is-done', on);
-        link.setAttribute('aria-label', `${names.get(link.dataset.chain)}${on ? ', done' : ''}`);
+        item.classList.toggle('is-done', on);
       }
       countEl.textContent = `${count} of ${cards.length} done`;
     }
@@ -105,7 +99,7 @@ window.CHECKLIST = (() => {
     document.addEventListener('click', (e) => {
       let circle = e.target.closest('.c-circle');
       if (!circle) {
-        const card = e.target.closest('.b-main .n-card');
+        const card = e.target.closest('.c-on .b-main .n-card');
         // Links and buttons keep their own job, and selecting text doesn't tick anything.
         if (!card || e.target.closest('a, button, input, label') || String(getSelection())) return;
         const box = card.querySelector('.c-box');

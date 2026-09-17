@@ -5,10 +5,13 @@
 .n-art > .c-circle { position: absolute; left: 20px; bottom: -26px; display: grid; place-items: center; min-width: 56px; height: 56px; padding: 0 12px; border: 0; border-radius: 999px; background: #fff; color: var(--purple-900); font: inherit; font-size: 24px; font-weight: 700; box-shadow: var(--shadow-md); cursor: pointer; transition: background-color .15s ease, box-shadow .15s ease, color .15s ease; }
 .n-card.is-done .c-circle { background: var(--done); color: #fff; }
 
-/* The whole card is the click target; hovering it (not its links) lights up the whole card. */
-.b-main .n-card { cursor: pointer; transition: background-color .15s ease, box-shadow .18s ease; }
-.b-main .n-card:hover:not(:has(a:hover, input:hover)) { background: var(--card-hover); box-shadow: var(--shadow-lg); }
-.b-main .n-card.is-done:hover:not(:has(a:hover, input:hover)) { background: var(--done-card-hover); }
+/* The whole card is the click target. Phones: no grey/blue tap flash, since the card shows its own change.
+   Hover styles only where a pointer can really hover, so a tapped card doesn't stay lit. */
+.c-on .b-main .n-card { cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background-color .15s ease, box-shadow .18s ease; }
+@media (hover: hover) {
+  .c-on .b-main .n-card:hover:not(:has(a:hover, input:hover)) { background: var(--card-hover); box-shadow: var(--shadow-lg); }
+  .c-on .b-main .n-card.is-done:hover:not(:has(a:hover, input:hover)) { background: var(--done-card-hover); }
+}
 .c-tick { display: none; }
 .is-done > .c-mark, .is-done .c-circle .c-mark { display: none; }
 .is-done > .c-tick, .is-done .c-circle .c-tick { display: contents; }
@@ -28,15 +31,10 @@
 .c-progress { flex: 1 1 560px; max-width: 880px; }
 .c-count { margin: 0 0 8px; color: var(--grey-600); font-size: 15px; font-weight: 600; text-align: right; }
 .c-chain { --h: 44px; --slant: -16deg; display: flex; gap: 5px; margin: 0; padding: 0 8px; list-style: none; }
-.c-chain li { flex: 1 1 0; min-width: 0; }
-.c-chain a { display: grid; place-items: center; height: var(--h); border: 2px solid var(--grey-300); border-radius: 6px; background: #fff; color: var(--grey-700); font-size: 17px; font-weight: 700; text-decoration: none; transform: skewX(var(--slant)); transition: background-color .15s ease, border-color .15s ease; }
-.c-chain a > span { transform: skewX(calc(-1 * var(--slant))); }
+.c-chain li { flex: 1 1 0; min-width: 0; display: grid; place-items: center; height: var(--h); border: 2px solid var(--grey-300); border-radius: 6px; background: #fff; color: var(--grey-700); font-size: 17px; font-weight: 700; transform: skewX(var(--slant)); transition: background-color .15s ease, border-color .15s ease; }
+.c-chain li > span { transform: skewX(calc(-1 * var(--slant))); }
 .c-chain .is-done > .c-tick { display: grid; }
-.c-chain a:hover { background: var(--done-hover); }
-.c-chain a.is-done { border-color: var(--done); background: var(--done); color: #fff; }
-.c-chain a.is-done:hover { background: var(--done-dark); }
-.c-chain a:focus-visible { outline-offset: 3px; }
-.n-card { scroll-margin-top: 16px; }
+.c-chain li.is-done { border-color: var(--done); background: var(--done); color: #fff; }
 @media (max-width: 860px) {
   .c-progress { max-width: none; }
   .c-count { text-align: left; }
@@ -44,8 +42,8 @@
 /* Phones: a slim segmented bar across the full width; the count above says the rest. Progress only, not links. */
 @media (max-width: 600px) {
   .c-chain { --h: 12px; gap: 3px; padding: 0 2px; }
-  .c-chain a { border-width: 1.5px; border-radius: 3px; }
-  .c-chain a > span { display: none !important; }
+  .c-chain li { border-width: 1.5px; border-radius: 3px; }
+  .c-chain li > span { display: none !important; }
 }
 
 /* Short confirmation at the bottom; screen readers hear it as a status message. */
@@ -54,7 +52,7 @@
 .c-toast svg { color: #8FD694; }
 
 @media (forced-colors: active) {
-  .c-box, .c-chain a, .n-art > .c-circle { forced-color-adjust: none; border: 2px solid CanvasText; background-color: Canvas; color: CanvasText; }
-  .c-box:checked, .c-chain a.is-done, .n-card.is-done .n-art > .c-circle { background-color: Highlight; color: HighlightText; }
+  .c-box, .c-chain li, .n-art > .c-circle { forced-color-adjust: none; border: 2px solid CanvasText; background-color: Canvas; color: CanvasText; }
+  .c-box:checked, .c-chain li.is-done, .n-card.is-done .n-art > .c-circle { background-color: Highlight; color: HighlightText; }
   .c-toast { border: 1px solid CanvasText; }
 }
