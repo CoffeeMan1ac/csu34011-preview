@@ -116,7 +116,7 @@
 .n-support a { color: var(--purple-700); font-weight: 500; }
 
 .n-foot { padding: 30px 0 24px; background: var(--purple-900); color: #C9C3D3; font-size: 19px; text-align: center; }
-.n-foot a { color: #fff; }
+.n-foot a { display: inline-block; min-height: 24px; color: #fff; }  /* a full-size tap target in any font */
 .n-foot small { display: block; margin-top: 10px; font-size: 11px; color: #837C92; }
 .n-foot small a { display: inline-block; padding-block: 6px; color: #9C93AC; }
 

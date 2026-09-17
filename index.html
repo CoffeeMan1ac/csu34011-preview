@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>CSU34011 site · preview</title>
+<link rel="stylesheet" href="prototypes/shared/vendor/fonts/atkinson/atkinson.css">
+<link rel="stylesheet" href="prototypes/shared/vendor/fonts/heros/heros.css">
+<link rel="stylesheet" href="prototypes/shared/vendor/fonts/aileron/aileron.css">
+<link rel="stylesheet" href="prototypes/shared/vendor/fonts/jost/jost.css">
+<link rel="stylesheet" href="prototypes/shared/vendor/fonts/cabin/cabin.css">
+<link rel="stylesheet" href="prototypes/shared/vendor/fonts/oswald/oswald.css">
+<link rel="stylesheet" href="prototypes/shared/vendor/fonts/plex/plex.css">
+<link rel="stylesheet" href="prototypes/shared/vendor/fonts/et-book/et-book.css">
+<link rel="stylesheet" href="prototypes/shared/vendor/fonts/source-serif/source-serif.css">
 <style>
   body { margin: 0; background: #f2f3f5; color: #1f2a30; font: 17px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
   main { max-width: 560px; margin: 0 auto; padding: 56px 20px; }
@@ -18,6 +27,7 @@
   small { display: block; color: #57534a; font-size: 15px; }
   .row { display: flex; flex-wrap: wrap; gap: 10px; }
   .row label { flex: 1 1 150px; align-items: center; margin-bottom: 0; }
+  .font-name { font-size: 20px; line-height: 1.3; }
   .look fieldset { margin-bottom: 16px; }
   .look legend { font-weight: 600; }
   h2 { margin: 8px 0 12px; font-size: 20px; }
@@ -62,6 +72,28 @@
           <label><input type="radio" name="colour" value="teal" checked><span>Teal</span></label>
           <label><input type="radio" name="colour" value="blue"><span>Blue</span></label>
         </div>
+      </fieldset>
+      <fieldset>
+        <legend>Font</legend>
+
+        <label><input type="radio" name="font" value="atkinson" checked>
+          <span><span class="font-name" style="font-family: &#39;Atkinson Hyperlegible&#39;, sans-serif">Atkinson Hyperlegible</span><small>Legibility first (Braille Institute) · current</small></span></label>
+        <label><input type="radio" name="font" value="heros">
+          <span><span class="font-name" style="font-family: &#39;Heros TT&#39;, Helvetica, Arial, sans-serif">Heros</span><small>Swiss Style, after Helvetica</small></span></label>
+        <label><input type="radio" name="font" value="aileron">
+          <span><span class="font-name" style="font-family: &#39;Aileron&#39;, Univers, Arial, sans-serif">Aileron</span><small>Swiss modernism, after Univers</small></span></label>
+        <label><input type="radio" name="font" value="jost">
+          <span><span class="font-name" style="font-family: &#39;Jost&#39;, Futura, &#39;Century Gothic&#39;, sans-serif">Jost</span><small>Bauhaus geometric, after Futura</small></span></label>
+        <label><input type="radio" name="font" value="cabin">
+          <span><span class="font-name" style="font-family: &#39;Cabin&#39;, &#39;Gill Sans&#39;, sans-serif">Cabin</span><small>British humanist, after Johnston and Gill</small></span></label>
+        <label><input type="radio" name="font" value="oswald">
+          <span><span class="font-name" style="font-family: &#39;Oswald&#39;, &#39;Arial Narrow&#39;, sans-serif">Oswald</span><small>Condensed poster lettering</small></span></label>
+        <label><input type="radio" name="font" value="plex">
+          <span><span class="font-name" style="font-family: &#39;IBM Plex Sans&#39;, Arial, sans-serif">IBM Plex Sans</span><small>Corporate modernism (IBM)</small></span></label>
+        <label><input type="radio" name="font" value="etbook">
+          <span><span class="font-name" style="font-family: &#39;ET Book&#39;, Palatino, Georgia, serif">ET Book</span><small>Classic book, after Bembo (Tufte)</small></span></label>
+        <label><input type="radio" name="font" value="sourceserif">
+          <span><span class="font-name" style="font-family: &#39;Source Serif 4&#39;, Georgia, serif">Source Serif</span><small>Transitional book serif</small></span></label>
       </fieldset>
       <fieldset>
         <legend>Card size</legend>

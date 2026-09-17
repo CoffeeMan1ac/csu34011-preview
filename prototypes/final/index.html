@@ -25,7 +25,8 @@
 
 <script src="../shared/theme-ink.js"></script>
 <script>
-  // Look options from the address (the preview's form): corners=sharp, colour=blue, cards=smaller|shorter.
+  // Look options from the address (the preview's form): corners=sharp, colour=blue, cards=smaller|shorter,
+  // font=<a key of FONTS>.
   // Set before the page is built, since the header takes its colours from THEME.
   (() => {
     const look = new URLSearchParams(location.search);
@@ -35,6 +36,25 @@
     if (look.get('colour') === 'blue') {
       on('blue');
       THEME.header = { bg: '#142D45', fg: '#1D3F60', opacity: 1 };
+    }
+    // Fonts from different design traditions, self-hosted under vendor/fonts; only the chosen one loads.
+    const FONTS = {
+      heros: ['heros', "'Heros TT', Helvetica, Arial, sans-serif"],
+      aileron: ['aileron', "'Aileron', Univers, Arial, sans-serif"],
+      jost: ['jost', "'Jost', Futura, 'Century Gothic', sans-serif"],
+      cabin: ['cabin', "'Cabin', 'Gill Sans', sans-serif"],
+      oswald: ['oswald', "'Oswald', 'Arial Narrow', sans-serif"],
+      plex: ['plex', "'IBM Plex Sans', Arial, sans-serif"],
+      etbook: ['et-book', "'ET Book', Palatino, Georgia, serif"],
+      sourceserif: ['source-serif', "'Source Serif 4', Georgia, serif"],
+    };
+    const font = FONTS[look.get('font')];
+    if (font) {
+      const css = document.createElement('link');
+      css.rel = 'stylesheet';
+      css.href = `../shared/vendor/fonts/${font[0]}/${font[0]}.css`;
+      document.head.append(css);
+      document.body.style.setProperty('--font', font[1]);
     }
   })();
 </script>
