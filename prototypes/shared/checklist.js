@@ -1,4 +1,5 @@
-/* Version C: tick off lectures. On wide screens the number circle is the button; on phones, where the
+/* Version C: tick off lectures. A click anywhere on a card (outside its links) ticks it, and the number
+   circle shows the tick; the circle is also the keyboard and screen reader control. On phones, where the
    circle is hidden, a tick box sits beside Slides. A progress chain sits beside the heading, and a short
    confirmation appears. Ticks are kept in localStorage: they survive reloads, closing the browser and
    restarts, until the visitor clears the site's data. Load after circle.js. */
@@ -23,11 +24,8 @@ window.CHECKLIST = (() => {
   const nameOf = (card, mark) => (/^\d+$/.test(mark) && mark !== '0'
     ? `Lecture ${mark}` : card.querySelector('h3 > span:last-child').textContent.trim());
 
-  // wholeCard: a click anywhere on a card that isn't a link or control ticks it (the circle stays the
-  // keyboard and screen reader control).
-  function mount({ wholeCard = false } = {}) {
+  function mount() {
     const main = document.querySelector('.b-main');
-    main.classList.toggle('c-whole', wholeCard);
     const head = main.querySelector('.n-head2');
     const cards = [...main.querySelectorAll('.n-card')];
     const names = new Map();
@@ -106,8 +104,8 @@ window.CHECKLIST = (() => {
     }
     document.addEventListener('click', (e) => {
       let circle = e.target.closest('.c-circle');
-      if (!circle && wholeCard) {
-        const card = e.target.closest('.c-whole .n-card');
+      if (!circle) {
+        const card = e.target.closest('.b-main .n-card');
         // Links and buttons keep their own job, and selecting text doesn't tick anything.
         if (!card || e.target.closest('a, button, input, label') || String(getSelection())) return;
         const box = card.querySelector('.c-box');
