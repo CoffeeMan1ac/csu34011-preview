@@ -20,9 +20,6 @@ window.P = (() => {
     { id: 'q-beyond', name: 'Q · Labels only', hyp: 'Same as P, except Beyond the book drops the pattern marks and lets the label do the work. Compare the two sections.' },
     { id: 'r-circle', name: 'R · Circles back', hyp: 'Circled numbers restored, Beyond the book as N’s rows at P’s shorter height, smaller centred footer with a one-line pattern credit.' },
     { id: 's-cards', name: 'S · Beyond as cards', hyp: 'Same as R, except Beyond the book uses the same containers as Slides.' },
-    { id: 'w-flat', name: 'W · Flatter', hyp: 'Final with lines instead of soft shadows, small corners, quick links as white labels with a coloured edge, and the number as a square tag in the pattern corner.' },
-    { id: 'x-serif', name: 'X · Serif titles', hyp: 'Final with titles in a book serif, the quick links joined into one bar on the header, a shorter pattern strip and the number as a label on it.' },
-    { id: 'y-numbers', name: 'Y · Big numbers', hyp: 'Final with the pattern only in the header: each card leads with a large teal number under a coloured top edge; quick links are outlined buttons.' },
     { id: 'final', name: 'Final · choose the options', hyp: 'One page; the address picks one list or split, and whether search and the checklist are on.' },
   ];
 
@@ -195,7 +192,7 @@ window.P = (() => {
   });
 
   // The versions shown to the professor carry no prototype controls.
-  const PRESENTED = new Set(['final', 'w-flat', 'x-serif', 'y-numbers']);
+  const PRESENTED = new Set(['final']);
 
   function bar(id) {
     if (PRESENTED.has(id)) return;

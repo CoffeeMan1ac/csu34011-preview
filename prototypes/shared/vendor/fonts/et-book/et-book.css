@@ -1,5 +1,0 @@
-/* ET Book, Edward Tufte's Bembo-derived typeface (MIT, see LICENSE; files from tufte-css), self-hosted. */
-@font-face { font-family: 'ET Book'; font-style: normal; font-weight: 400; font-display: swap; src: url(./et-book-roman-line-figures.woff) format('woff'); }
-@font-face { font-family: 'ET Book'; font-style: italic; font-weight: 400; font-display: swap; src: url(./et-book-display-italic-old-style-figures.woff) format('woff'); }
-@font-face { font-family: 'ET Book'; font-style: normal; font-weight: 700; font-display: swap; src: url(./et-book-semi-bold-old-style-figures.woff) format('woff'); }
-@font-face { font-family: 'ET Book OSF'; font-style: normal; font-weight: 400; font-display: swap; src: url(./et-book-roman-old-style-figures.woff) format('woff'); }
