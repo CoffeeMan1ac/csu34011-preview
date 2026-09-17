@@ -1,0 +1,50 @@
+/* Look options for the final page, chosen on the preview form: sharp corners, blue colour, smaller or
+   shorter cards. Each applies only when its class is on <body>. Load after the other stylesheets. */
+
+/* Sharp corners: containers, buttons, fields and labels get a small radius. Circles stay round. */
+.o-sharp :is(.n-card, .n-list, .n-q, .btn, .v-search input, .n-hits a, .n-hits .more, .c-toast, .c-box, .skip-link, .n-with, .r-with) { border-radius: 3px; }
+.o-sharp .n-list .n-card { border-radius: 0; }
+.o-sharp .c-chain li { border-radius: 2px; }
+@media (max-width: 600px) {
+  .o-sharp .n-card { border-radius: 0; }
+}
+
+/* Blue: the Isotype blue in place of the dark teal (the header's own colours are set by the page). */
+.o-blue {
+  --purple-50: #EEF3F8; --purple-100: #DCE6F0; --purple-200: #BCCFE2; --purple-300: #95B2CF; --purple-400: #6B90B6;
+  --purple-500: #3F6E9C; --purple-600: #2A5C8A; --purple-700: #214B72; --purple-800: #1A3B5A; --purple-900: #142D45;
+}
+.o-blue .n-code { color: #DCE6F0; }
+
+/* Shorter cards: same width and type, less height. */
+.o-shorter .n-art { height: 76px; }
+.o-shorter .n-body { gap: 4px; padding: 34px 20px 16px; }
+.o-shorter .n-actions { padding-top: 12px; }
+.o-shorter .n-actions .btn { min-height: 44px; }
+@media (min-width: 601px) {
+  .o-shorter .n-list .n-card { min-height: 76px; }
+  .o-shorter .n-list .n-body { padding-block: 12px; }
+}
+@media (max-width: 600px) {
+  .o-shorter .n-body { padding: 14px 20px 16px; }
+  .o-shorter .n-actions { padding-top: 10px; }
+  .o-shorter .c-actions, .o-shorter .c-actions.one { grid-template-columns: 44px 1fr 1fr; }
+  .o-shorter .c-box { width: 44px; height: 44px; }
+}
+
+/* Smaller cards: one more per row, slightly smaller type and parts. */
+.o-smaller .n-grid:not(.n-list) { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 1180px) { .o-smaller .n-grid:not(.n-list) { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 900px) { .o-smaller .n-grid:not(.n-list) { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 720px) { .o-smaller .n-grid:not(.n-list) { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.o-smaller .n-art { height: 96px; }
+.o-smaller .n-art > :is(span, .c-circle) { min-width: 50px; height: 50px; bottom: -23px; font-size: 21px; }
+.o-smaller .n-body { padding: 34px 16px 16px; }
+.o-smaller .n-body h3 { font-size: 19px; }
+.o-smaller .n-body p { font-size: 15px; }
+.o-smaller .n-actions { gap: 8px; }
+.o-smaller .n-actions .btn { min-height: 44px; padding-inline: 8px; font-size: 16px; }
+@media (max-width: 600px) {
+  .o-smaller .n-grid:not(.n-list) { display: block; }
+  .o-smaller .n-body { padding: 18px 20px 20px; }
+}

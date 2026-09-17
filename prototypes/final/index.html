@@ -18,11 +18,26 @@
 <link rel="stylesheet" href="../shared/vsearch.css">
 <link rel="stylesheet" href="../shared/checklist.css">
 <link rel="stylesheet" href="../shared/theme-ink.css">
+<link rel="stylesheet" href="../shared/options.css">
 </head>
 <body>
 <div id="app"></div>
 
 <script src="../shared/theme-ink.js"></script>
+<script>
+  // Look options from the address (the preview's form): corners=sharp, colour=blue, cards=smaller|shorter.
+  // Set before the page is built, since the header takes its colours from THEME.
+  (() => {
+    const look = new URLSearchParams(location.search);
+    const on = (name) => document.body.classList.add(`o-${name}`);
+    if (look.get('corners') === 'sharp') on('sharp');
+    if (['smaller', 'shorter'].includes(look.get('cards'))) on(look.get('cards'));
+    if (look.get('colour') === 'blue') {
+      on('blue');
+      THEME.header = { bg: '#142D45', fg: '#1D3F60', opacity: 1 };
+    }
+  })();
+</script>
 <script src="../shared/data.js"></script>
 <script src="../shared/pdfindex.js"></script>
 <script src="../shared/proto.js"></script>
