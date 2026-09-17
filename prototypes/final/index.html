@@ -32,11 +32,11 @@
 <script src="../shared/vsearch.js"></script>
 <script src="../shared/checklist.js"></script>
 <script>
-  // The version to show comes from the address: ?view=unified|split&search=on&checklist=on
+  // The version to show comes from the address: ?view=unified|split|list&search=on&checklist=on
   // (what the preview's form sends). With no choices given, everything is on in one list.
   const choice = new URLSearchParams(location.search);
   const chosen = choice.has('view');
-  const beyond = choice.get('view') === 'split' ? 'cards' : 'merged';
+  const beyond = { split: 'cards', list: 'list' }[choice.get('view')] || 'merged';
   if (!chosen || choice.has('search')) {
     VSEARCH.mount('final', { beyond });
   } else {

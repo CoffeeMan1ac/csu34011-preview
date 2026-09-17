@@ -37,7 +37,8 @@ window.VSEARCH = (() => {
     ));
   };
 
-  // beyond: 'cards' keeps the extra decks in their own section; 'merged' lists everything in one.
+  // beyond: 'cards' keeps the extra decks in their own section; 'merged' lists everything in one;
+  // 'list' is the same order as rows instead of cards.
   function mount(variantId, { beyond = 'cards' } = {}) {
     P.bar(variantId);
     document.getElementById('app').innerHTML = CIRCLE.page({ beyond });
@@ -48,7 +49,7 @@ window.VSEARCH = (() => {
     browse.className = 'v-browse';
     browse.append(...wrap.childNodes);
     const results = document.createElement('div');
-    results.className = 'n-grid v-results';
+    results.className = `n-grid v-results${beyond === 'list' ? ' n-list' : ''}`;
     results.hidden = true;
     // Keeps the heading order (h1, h2, h3) while the browse section with its "Slides" heading is hidden.
     const resultsTitle = document.createElement('h2');

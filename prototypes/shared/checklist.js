@@ -6,6 +6,8 @@
 window.CHECKLIST = (() => {
   const KEY = 'csu34011-done';
   const TOAST_MS = 2500;
+  // A ticked card's pattern is redrawn in light green.
+  const DONE_PATTERN = { bg: '#DCEEDD', fg: '#4F9A57', opacity: 0.32 };
   const calm = matchMedia('(prefers-reduced-motion: reduce)');
   const tick = (size) => UI.icon('tick', size);
 
@@ -36,6 +38,9 @@ window.CHECKLIST = (() => {
       const mark = markOf(card);
       const name = nameOf(card, mark);
       names.set(id, name);
+      const art = card.querySelector('.n-art');
+      card.dataset.artPlain = art.getAttribute('style');
+      card.dataset.artDone = UI.deckStyle({ id }, DONE_PATTERN);
       card.querySelector('.n-art > span').outerHTML = `<button type="button" class="c-circle" data-done="${id}"
         aria-pressed="false" aria-label="Done: ${P.esc(name)}" title="Mark as done">
         <span class="c-mark">${mark}</span><span class="c-tick">${tick(30)}</span></button>`;
@@ -76,7 +81,9 @@ window.CHECKLIST = (() => {
       for (const el of document.querySelectorAll('[data-done]')) {
         const on = done.has(el.dataset.done);
         if (el.type === 'checkbox') el.checked = on; else el.setAttribute('aria-pressed', on);
-        el.closest('.n-card').classList.toggle('is-done', on);
+        const card = el.closest('.n-card');
+        card.classList.toggle('is-done', on);
+        card.querySelector('.n-art').setAttribute('style', on ? card.dataset.artDone : card.dataset.artPlain);
       }
       let count = 0;
       for (const item of chain.querySelectorAll('[data-chain]')) {

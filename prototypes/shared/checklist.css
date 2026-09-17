@@ -11,6 +11,7 @@
 @media (hover: hover) {
   .c-on .b-main .n-card:hover:not(:has(a:hover, input:hover)) { background: var(--card-hover); box-shadow: var(--shadow-lg); }
   .c-on .b-main .n-card.is-done:hover:not(:has(a:hover, input:hover)) { background: var(--done-card-hover); }
+  .c-on .b-main .n-list .n-card:hover { box-shadow: none; }
 }
 .c-tick { display: none; }
 .is-done > .c-mark, .is-done .c-circle .c-mark { display: none; }

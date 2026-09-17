@@ -137,7 +137,7 @@ window.CIRCLE = (() => {
     ${header()}
     <main class="b-main" id="main" tabindex="-1"><div class="b-wrap">
       <div class="n-head2"><h2>Slides</h2><p>from Learn Prolog Now and more</p></div>
-      ${beyond === 'merged' ? `<div class="n-grid">${mergedCards()}</div>` : `
+      ${beyond === 'merged' || beyond === 'list' ? `<div class="n-grid${beyond === 'list' ? ' n-list' : ''}">${mergedCards()}</div>` : `
         <div class="n-grid">${LPN.decks.filter((d) => d.kind === 'chapter').map((d) => card(d)).join('')}</div>
         <div class="n-head2 b-gap"><h2>Beyond the book</h2><p>Extra topics from the lectures</p></div>
         ${beyond === 'cards'
